@@ -2,7 +2,88 @@ language: fa
 intents:
   HassTurnOn:
     data:
-      - sentences: []
+
+      # Turn on a specific light
+      - sentences:
+          - "<turn> <area_floor> <name> <light> را روشن کن"
+          - "<turn> <name> <light> را روشن کن [<in_area_floor>]"
+          - "[<turn>] <area_floor> <name> <light> را روشن کن"
+          - "[<turn>] <name> <light> را روشن کن [<in_area_floor>]"
+          - "فعال کن <area_floor> <name> <light>"
+          - "فعال کن <name> <light> [<in_area_floor>]"
+          - "روشن کن <area_floor> <name> <light>"
+          - "روشن کن <name> <light> [<in_area_floor>]"
+        requires_context:
+          domain: "light"
+
+      # Turn on all lights in an area
+      - sentences:
+          - "(روشن کن|فعال کن) <area> را"
+          - "<area> <light> را روشن کن"
+          - "<light> را روشن کن در <area>"
+          - "<turn> [<all>] <area> <light> را روشن کن"
+          - "<turn> [(<all>|<the>)] <light> را در <area> روشن کن"
+          - "[<turn>] [<all>] <area> <light> را روشن کن"
+          - "[<turn>] [(<all>|<the>)] <light> را در <area> روشن کن"
+          - "[<turn>] [(<all>|<the>)] <light> را روشن کن در <area>"
+          - "فعال کن [<all>] <area> <light>"
+          - "فعال کن [(<all>|<the>)] <light> را در <area>"
         slots:
-          domain: light
-          name: all
+          domain: "light"
+        response: "lights_area"
+
+      # Turn on all lights on a floor
+      - sentences:
+          - "(روشن کن|فعال کن) <floor> را"
+          - "<floor> <light> را روشن کن"
+          - "<light> را روشن کن [در] <floor>"
+          - "<turn> [<all>] <floor> <light> را روشن کن"
+          - "<turn> [(<all>|<the>)] <light> را [در] <floor> روشن کن"
+          - "[<turn>] [<all>] <floor> <light> را روشن کن"
+          - "[<turn>] [(<all>|<the>)] <light> را [در] <floor> روشن کن"
+          - "[<turn>] [(<all>|<the>)] <light> را روشن کن در <floor>"
+          - "فعال کن [<all>] <floor> <light>"
+          - "فعال کن [(<all>|<the>)] <light> را در <floor>"
+        response: "lights_floor"
+        slots:
+          domain: "light"
+
+      # Turn on all lights in the home
+      - sentences:
+          - "(روشن کن|فعال کن|نور بده) <all> <light> را <everywhere>"
+          - "(روشن کن|نور بده) <everywhere> [<everywhere>]"
+          - "<turn> <all> <light> را روشن کن [<everywhere>]"
+          - "<turn> [<the>] <light> را روشن کن <everywhere>"
+          - "<turn> on <all> <light> را [<everywhere>]"
+          - "<turn> on [<the>] <light> را <everywhere>"
+          - "<turn> on [(<all>|<the>)] <home> <light> را <everywhere>"
+          - "فعال کن <all> <light> را [<everywhere>]"
+          - "فعال کن [<the>] <light> را <everywhere>"
+          - "اطمینان حاصل کن که <all> <light> روشن است [<everywhere>]"
+          - "تمام خانه را روشن کن"
+        response: "light_all"
+        slots:
+          domain: "light"
+
+      # Turn on lights in the same area as a satellite device
+      - sentences:
+          - "<turn> [(<all>|<the>)] <light> را روشن کن <here>"
+          - "<turn> [(<all>|<the>)] <light> را <here> روشن کن"
+          - "<turn> on [(<all>|<the>)] <light> را <here>"
+          - "فعال کن [(<all>|<the>)] <light> را <here>"
+          - "[(<all>|<the>)] <light> را روشن کن <here>"
+
+          - "<turn> [<the>] <light> را روشن کن [<here>]"
+          - "<turn> [<the>] <light> را [<here>] روشن کن"
+          - "<turn> on [<the>] <light> را [<here>]"
+          - "فعال کن [<the>] <light> را [<here>]"
+          - "<light> را روشن کن [<here>]"
+          - "روشن کن (اینجا|<here>)"
+          - "اینجا را روشن کن"
+        response: "lights_area"
+        slots:
+          domain: "light"
+        requires_context:
+          area:
+            slot: true
+
